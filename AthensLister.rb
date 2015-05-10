@@ -25,6 +25,16 @@ module Logging
 	end
 end
 
-include Logging
+module Execute
+	def execute(screenname, cmd)
+		logger.debug("Sending Command to #{screenname}: " + cmd)
+		system("screen -S #{screenname} -p 0 -X stuff '#{cmd}\r'")
+	end
+end
 
+include Logging
+include Execute
 logger.info("Hello World from AthensLister logger!")
+
+# Define the screen session name, then command to execute
+execute("servername", "say hi")
