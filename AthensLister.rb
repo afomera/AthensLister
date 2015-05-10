@@ -43,9 +43,17 @@ if !ARGV[0]
 	abort
 end
 
-# Define the screen session name, then command to execute
-execute("servername", "say hi")
-
+# Set the username to whitelist
 new_member_username = ARGV[0]
-execute("servername", "whitelist add #{new_member_username}")
-execute("servername", "whitelist reload")
+
+# Create Servers Array
+# These are SCREEN session NAMES. 
+servers = ["servername", "snapshot", "rrr", "jtm"]
+
+puts "There are... " + servers.count.to_s + " servers"
+
+servers.each do |servername|
+	execute("#{servername}", "say hi!")
+	execute("#{servername}", "whitelist add #{new_member_username}")
+	execute("#{servername}", "whitelist reload")
+end
