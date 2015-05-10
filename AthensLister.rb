@@ -48,7 +48,8 @@ new_member_username = ARGV[0]
 
 # Create Servers Array
 # These are SCREEN session NAMES. 
-servers = ["servername", 
+servers = [
+			"servername", 
 			"snapshot", 
 			"rrr", 
 			"jtm"
