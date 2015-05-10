@@ -36,5 +36,16 @@ include Logging
 include Execute
 logger.info("Hello World from AthensLister logger!")
 
+# Did they pass something to the script to whitelist (username hopefully!)
+if !ARGV[0]
+	logger.fatal("Sorry you need to specify a username after calling the script!")
+	logger.fatal("Example: ./AthensLister.rb USERNAME")
+	abort
+end
+
 # Define the screen session name, then command to execute
 execute("servername", "say hi")
+
+new_member_username = ARGV[0]
+execute("servername", "whitelist add #{new_member_username}")
+execute("servername", "whitelist reload")
