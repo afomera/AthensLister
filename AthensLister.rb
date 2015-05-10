@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 require 'logger'
+require 'net/ssh'
 
 module Logging
 	def logger
@@ -46,19 +47,29 @@ end
 # Set the username to whitelist
 new_member_username = ARGV[0]
 
-# Create Servers Array
+# Create Servers Hash
 # These are SCREEN session NAMES. 
-servers = [
-			"servername", 
-			"snapshot", 
-			"rrr", 
-			"jtm"
-		  ]
+# second part is the user and server used to SSH into
+servers = {
+			"snapshot" => "minecraft@a02.athensmc.com", 
+			"rrr" => "modded@a02.athensmc.com", 
+			"jtm" => "modded@a02.athensmc.com"
+		  }
 
-puts "There are... " + servers.count.to_s + " servers"
+puts "There are... " + servers.count.to_s + " servers to send commands to."
 
-servers.each do |servername|
-	execute("#{servername}", "say hi!")
-	execute("#{servername}", "whitelist add #{new_member_username}")
-	execute("#{servername}", "whitelist reload")
+servers.each do |servername, location|
+	logger.info("Sending commands to #{location}")	
+	@ssh_user = location[/[^@]+/]
+	@ssh_host = location.split("@")[1]
+	Net::SSH.start(@ssh_host, @ssh_user) do |session|
+	 puts session.to_s + "Logged into #{@ssh_user}@#{@ssh_host}"
+	  def send_to_remote(screenname, cmd)
+		logger.debug("Sending Command to #{screenname}: " + cmd)
+		"screen -S #{screenname} -p 0 -X stuff '#{cmd}\r'"
+	  end
+	 session.exec!(send_to_remote("#{servername}", "whitelist add #{new_member_username}"))
+	 session.exec!(send_to_remote("#{servername}", "whitelist reload"))
+	 session.exec!(send_to_remote("#{servername}", "say Please Welcome #{new_member_username}"))
+	end
 end
