@@ -73,3 +73,5 @@ servers.each do |servername, location|
 	 session.exec!(send_to_remote("#{servername}", "say Please welcome #{new_member_username} when you see them!"))
 	end
 end
+
+logger.info("AthensLister has finished whitelisting #{new_member_username}")
