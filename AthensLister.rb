@@ -70,6 +70,6 @@ servers.each do |servername, location|
 	  end
 	 session.exec!(send_to_remote("#{servername}", "whitelist add #{new_member_username}"))
 	 session.exec!(send_to_remote("#{servername}", "whitelist reload"))
-	 session.exec!(send_to_remote("#{servername}", "say Please Welcome #{new_member_username}"))
+	 session.exec!(send_to_remote("#{servername}", "say Please welcome #{new_member_username} when you see them!"))
 	end
 end
