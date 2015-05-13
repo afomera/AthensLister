@@ -26,15 +26,8 @@ module Logging
 	end
 end
 
-module Execute
-	def execute(screenname, cmd)
-		logger.debug("Sending Command to #{screenname}: " + cmd)
-		system("screen -S #{screenname} -p 0 -X stuff '#{cmd}\r'")
-	end
-end
-
 include Logging
-include Execute
+
 logger.info("Hello World from AthensLister logger!")
 
 # Did they pass something to the script to whitelist (username hopefully!)
