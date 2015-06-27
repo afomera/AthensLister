@@ -43,6 +43,7 @@ new_member_username = ARGV[0]
 # Create Servers Hash
 # These are SCREEN session NAMES. 
 # second part is the user and server used to SSH into
+# Referenced as "servername" => "location" in servers.each block
 servers = {
 			"snapshot" => "minecraft@a02.athensmc.com", 
 			"rrr" => "modded@a02.athensmc.com", 
